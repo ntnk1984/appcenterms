@@ -16,6 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Button
 } from 'react-native';
 
 import {
@@ -25,6 +26,10 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import Analytics from 'appcenter-analytics';
+import Crashes from 'appcenter-crashes';
+
 
 /* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
  * LTI update could not be added via codemod */
@@ -61,16 +66,68 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  sendEvent = () =>
+  {
+    Analytics.trackEvent('yy Custom Event', {
+      prop1: new Date().getSeconds()
+    });
+  };
+
+  nativeCrash = () => 
+  {
+    Crashes.generateTestCrash();
+  };
+   
+  jsCrash = ()=> 
+  {
+     this.func1();
+  };
+  
+  func1 = () =>  
+  { 
+    this.func2(); 
+  };
+  
+  func2= () => 
+  { this.func3(); };
+  
+  func3= () => 
+  { 
+    this.func4(); };
+
+  func4= () => 
+  { this.func5(); };
+
+  func5= () => 
+  {
+     throw new Error('My uncaught javascript exception');
+  };
+  
+  
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      
+
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
+          <View>
+            <Text style={styles.welcome}>
+              Welcome to React Native!
+            </Text>
+            <Button title="Send Event" onPress={() => this.sendEvent()} />
+            <Button title="Native Crash" onPress={() => this.nativeCrash()} />
+            <Button title="JS Crash" onPress={() => this.jsCrash()} />
+
+
+          </View>
+    
+        {/* <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -89,7 +146,7 @@ const App: () => Node = () => {
             Read the docs to discover what to do next:
           </Section>
           <LearnMoreLinks />
-        </View>
+        </View> */}
       </ScrollView>
     </SafeAreaView>
   );

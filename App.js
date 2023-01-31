@@ -1,174 +1,209 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+const Stack = createNativeStackNavigator();
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import Explore from "./screens/Explore";
+import SearchTwoWay from "./screens/SearchTwoWay";
+import Borocay from "./screens/Borocay";
+import Bookings from "./screens/Bookings";
+import Offers from "./screens/Offers";
+import SearchResults from "./screens/SearchResults";
+import SplashScreen from "./screens/SplashScreen";
+import DrawerMenu from "./screens/DrawerMenu";
+import ProfileIcon from "./screens/ProfileIcon";
+import Search from "./screens/Search";
+import BottomTab6 from "./components/BottomTab6";
+import BottomTab7 from "./components/BottomTab7";
+import BottomTab from "./components/BottomTab";
+import BottomTab8 from "./components/BottomTab8";
+import BottomTab9 from "./components/BottomTab9";
+import BottomTab10 from "./components/BottomTab10";
+import BottomTab11 from "./components/BottomTab11";
+import BottomTab12 from "./components/BottomTab12";
+import BottomTab13 from "./components/BottomTab2";
+import BottomTab14 from "./components/BottomTab14";
+import Header1 from "./components/Header1";
+import Header from "./components/Header";
+import Group41 from "./components/Group4";
+import Header2 from "./components/Header2";
+import Group4 from "./components/Group4";
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button
-} from 'react-native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const Drawer = createDrawerNavigator();
 
-import Analytics from 'appcenter-analytics';
-import Crashes from 'appcenter-crashes';
+const Tab = createBottomTabNavigator();
 
-
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+function DrawerRoot({ navigation }) {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  sendEvent = () =>
-  {
-    Analytics.trackEvent('yy Custom Event', {
-      prop1: new Date().getSeconds()
-    });
-  };
-
-  nativeCrash = () => 
-  {
-    Crashes.generateTestCrash();
-  };
-   
-  jsCrash = ()=> 
-  {
-     this.func1();
-  };
-  
-  func1 = () =>  
-  { 
-    this.func2(); 
-  };
-  
-  func2= () => 
-  { this.func3(); };
-  
-  func3= () => 
-  { 
-    this.func4(); };
-
-  func4= () => 
-  { this.func5(); };
-
-  func5= () => 
-  {
-     throw new Error('My uncaught javascript exception');
-  };
-  
-  
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <Drawer.Navigator
+      screenOptions={{ headerShown: false, drawerStyle: { width: 320 } }}
+      drawerContent={(props) => <DrawerMenu {...props} />}
+    >
+      <Drawer.Screen name="BottomTabsRoot" component={BottomTabsRoot} />
+      <Drawer.Screen
+        name="Borocay"
+        component={Borocay}
+        options={{ headerShown: false }}
       />
-      
-
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-          <View>
-            <Text style={styles.welcome}>
-              Welcome to React Native!
-            </Text>
-            <Button title="Send Event" onPress={() => this.sendEvent()} />
-            <Button title="Native Crash" onPress={() => this.nativeCrash()} />
-            <Button title="JS Crash" onPress={() => this.jsCrash()} />
-
-
+    </Drawer.Navigator>
+  );
+}
+function BottomTabsRoot({ navigation }) {
+  const [bottomTabItemsNormal] = React.useState([
+    <BottomTab7 />,
+    <BottomTab8 />,
+    <BottomTab10 />,
+    <BottomTab12 />,
+    <BottomTab14 />,
+  ]);
+  const [bottomTabItemsActive] = React.useState([
+    <BottomTab6 />,
+    <BottomTab />,
+    <BottomTab9 />,
+    <BottomTab11 />,
+    <BottomTab13 />,
+  ]);
+  return (
+    <Tab.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="Explore"
+      tabBar={({ state, descriptors, navigation }) => {
+        const activeIndex = state.index;
+        return (
+          <View
+            style={{
+              alignSelf: "stretch",
+              backgroundColor: "#fff",
+              shadowColor: "rgba(0, 0, 0, 0.03)",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowRadius: 15,
+              elevation: 15,
+              shadowOpacity: 1,
+              flexDirection: "row",
+              padding: 16,
+              alignItems: "center",
+              justifyContent: "space-between",
+              height: 81,
+            }}
+          >
+            {bottomTabItemsNormal.map((item, index) => {
+              const isFocused = state.index === index;
+              return (
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate({
+                      name: state.routes[index].name,
+                      merge: true,
+                    });
+                  }}
+                >
+                  {activeIndex === index
+                    ? bottomTabItemsActive[index] || item
+                    : item}
+                </Pressable>
+              );
+            })}
           </View>
-    
-        {/* <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View> */}
-      </ScrollView>
-    </SafeAreaView>
+        );
+      }}
+    >
+      <Tab.Screen
+        name="Explore"
+        component={Explore}
+        options={(props) => ({
+          headerShown: true,
+          header: () => <Header1 />,
+        })}
+      />
+      <Tab.Screen
+        name="Bookings"
+        component={Bookings}
+        options={(props) => ({
+          headerShown: true,
+          header: () => <Header />,
+        })}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={(props) => ({
+          headerShown: true,
+          header: () => <Group41 />,
+        })}
+      />
+      <Tab.Screen
+        name="Offers"
+        component={Offers}
+        options={(props) => ({
+          headerShown: true,
+          header: () => <Header2 />,
+        })}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileIcon}
+        options={{ headerShown: false }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+const App = () => {
+  const [hideSplashScreen, setHideSplashScreen] = React.useState(false);
+  const [fontsLoaded] = useFonts({
+    "Baloo Bhai 2": require("./assets/fonts/Baloo_Bhai_2.ttf"),
+    Inter: require("./assets/fonts/Inter.ttf"),
+    Roboto: require("./assets/fonts/Roboto.ttf"),
+  });
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setHideSplashScreen(true);
+    }, 1000);
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <>
+      <NavigationContainer>
+        {hideSplashScreen ? (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="DrawerRoot" component={DrawerRoot} />
+
+            <Stack.Screen
+              name="SearchTwoWay"
+              component={SearchTwoWay}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SearchResults"
+              component={SearchResults}
+              options={(props) => ({
+                headerShown: true,
+                header: () => <Group4 />,
+              })}
+            />
+            <Stack.Screen
+              name="SplashScreen"
+              component={SplashScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        ) : (
+          <SplashScreen />
+        )}
+      </NavigationContainer>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
 export default App;
